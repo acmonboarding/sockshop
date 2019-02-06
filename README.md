@@ -1,14 +1,11 @@
 [![Build Status](https://travis-ci.org/keptn/keptn.svg?branch=master)](https://travis-ci.org/keptn/keptn)
-# Keptn
-Keptn is a fabric for cloud-native lifecycle automation at enterprise scale.
+# Sockshop
+Sockshop is a demo application that will be deployed on a k8s cluster as part of onboarding
 
 ##### Table of Contents
  * [Step Zero: Prerequisites](#step-zero)
  * [Step One: Provision cluster on Kubernetes](#step-one)
- * [Step Two: Setup service tagging rules in Dynatrace](#step-two)
- * [Step Three: Setup process group naming rule in Dynatrace](#step-three)
- * [Step Four: Use case walk through](#step-four)
- * [Step Five: Cleanup](#step-five)
+ * [Step Two: Cleanup](#step-five)
 
 ## Step Zero: Prerequisites <a id="step-zero"></a>
 
@@ -67,81 +64,6 @@ This directory contains all scripts and instructions needed to deploy the demo a
     NAME         TYPE            CLUSTER-IP       EXTERNAL-IP      PORT(S)           AGE
     front-end    LoadBalancer    10.23.248.***    **.226.62.***    8080:32232/TCP    7m
     ```
-
-1. Run the `kubectl get svc` command to get the **EXTERNAL-IP** and **PORT** of Jenkins. Then user a browser to open Jenkins and login using the default Jenkins credentials: `admin` / `AiTx4u8VyUV8tCKk`. **Note:** It is recommended to change these credentials right after the first login.
-
-    ```console
-    $ kubectl get svc jenkins -n cicd
-    NAME       TYPE            CLUSTER-IP      EXTERNAL-IP       PORT(S)                            AGE
-    jenkins    LoadBalancer    10.23.245.***   ***.198.26.***    24***:32478/TCP,50***:31867/TCP    10m
-    ``` 
-
-1. To verify the correct installation of Jenkins, go to the Jenkins dashboard where you see the following pipelines:
-    * k8s-deploy-production
-    * k8s-deploy-production-canary
-    * k8s-deploy-production-update
-    * k8s-deploy-staging
-    * Folder called sockshop
-
-1. Finally, navigate to **Jenkins** > **Manage Jenkins** > **Configure System** and  scroll to the environment variables to verify whether the variables are set correctly. **Note:** The value for the parameter *DT_TENANT_URL* must start with *https://*
-
-![](./assets/jenkins-env-vars.png)
-
-## Step Two: Setup service tagging rules in Dynatrace <a id="step-two"></a>
-
-This step creates tagging rules based on Kubernetes pod name and namespaces.
-These rules allow you to query service-level metrics such as response time, failure rate, or throughput automatically based on meta-data that you have passed during a deployment, e.g.: *Deployment Stage* (dev, staging, or production). 
-
-1. Login in to your Dynatrace tenant.
-
-1. Create service tag for app name based on Kubernetes container name
-    1. Go to **Settings**, **Tags**, and click on **Automatically applied tags**.
-    1. Create a new custom tag with the name `app`.
-    1. Edit that tag and **Add new rule**.
-        * Optional tag value: `{ProcessGroup:KubernetesContainerName}`
-        * Rule applies to: `Services` 
-        * Condition on `Kubernetes container name` if `exists`
-    1. Click on **Preview** to validate that the rule works.
-    1. Click on **Save** for the rule and then **Done**.
-
-1. Create service tag for environment based on Kubernetes namespace
-    1. Go to **Settings**, **Tags**, and click on **Automatically applied tags**.
-    1. Create a new custom tag with the name `environment`.
-    1. Edit that tag and **Add new rule**.
-        * Optional tag value: `{ProcessGroup:KubernetesNamespace}`
-        * Rule applies to: `Services` 
-        * Condition on `Kubernetes namespace` if `exists`
-    1. Click on **Preview** to validate that the rule works.
-    1. Click on **Save** for the rule and then **Done**.
-
-    Screenshot shows rule for app tag.
-    ![tagging-rule](./assets/tagging_rule.png)
-
-## Step Three: Setup process group naming rule in Dynatrace <a id="step-three"></a>
-
-1. Create a naming rule for process groups
-    1. Go to **Settings**, **Process and containers**, and click on **Process group naming**.
-    1. Create a new process group naming rule with **Add new rule**. 
-    1. Edit that rule:
-        * Rule name: `Container.Namespace`
-        * Process group name format: `{ProcessGroup:KubernetesContainerName}.{ProcessGroup:KubernetesNamespace}`
-        * Condition: `Kubernetes namespace`> `exits`
-    1. Click on **Preview** and **Save**.
-
-    Screenshot shows this rule definition.
-    ![naming-rule](./assets/pg_naming.png)
-
-## Step Three: Use case walk through <a id="step-four"></a>
-
-To explore the capabilities of keptn, follow the provided use cases that are dedicated to a special topic.
-
-* [Performance as a Service](./usecases/performance-as-a-service): This use case aims on moving from manual sporadic execution and analysis of performance tests to a fully automated on-demand self-service testing model for developers.
-
-* [Production Deployments](./usecases/production-deployments): This use case gives an overview of production deployments, deployment strategies, and showcases those using Istio on Kubernetes to canary-deploy a new front-end version.
-
-* [Runbook Automation and Self-Healing](./usecases/runbook-automation-and-self-healing): This use case gives an overview of how to leverage the power of runbook automation to build self-healing applications. 
-
-* [Unbreakable Delivery Pipeline](./usecases/unbreakable-delivery-pipeline): The overall goal of the *Unbreakable Delivery Pipeline* is to implement a pipeline that prevents bad code changes from impacting real end users.
 
 ## Step Four: Cleanup <a id="step-five"></a>
 

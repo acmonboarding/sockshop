@@ -1,9 +1,3 @@
-# Namespace for all ci/cd resources (jenkins, build slaves, docker registry, ...)
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: cicd
----
 # Namespace for development stage - all successful builds will be pushed to dev
 apiVersion: v1
 kind: Namespace
