@@ -7,13 +7,13 @@ CREDS=./creds.json
 rm $CREDS 2> /dev/null
 
 echo -e "${YLW}Please enter the credentials as requested below: ${NC}"
-read -p "Dynatrace Tenant ID (8-digit) (default=$DTENV): " DTENVC
+read -p "Dynatrace Environment URI (SaaS: <ENVIRONMENTID>.live.dynatrace.com, Managed: <YOURDTSERVERURL>/e/<ENVIRONMENTID>) (default=$DTENV): " DTENVC
 read -p "Dynatrace API Token (default=$DTAPI): " DTAPIC
 read -p "Dynatrace PaaS Token (default=$DTAPI): " DTPAAST
-read -p "GitHub User Name: " GITU 
-read -p "GitHub Personal Access Token: " GITAT
-read -p "GitHub User Email: " GITE
-read -p "GitHub Organization: " GITO
+# read -p "GitHub User Name: " GITU 
+# read -p "GitHub Personal Access Token: " GITAT
+# read -p "GitHub User Email: " GITE
+# read -p "GitHub Organization: " GITO
 echo ""
 
 if [[ $DTENV = '' ]]
@@ -31,10 +31,10 @@ echo -e "${YLW}Please confirm all are correct: ${NC}"
 echo "Dynatrace Tenant: $DTENV"
 echo "Dynatrace API Token: $DTAPI"
 echo "Dynatrace PaaS Token: $DTPAAST"
-echo "GitHub User Name: $GITU"
-echo "GitHub Personal Access Token: $GITAT"
-echo "GitHub User Email: $GITE"
-echo "GitHub Organization: $GITO" 
+# echo "GitHub User Name: $GITU"
+# echo "GitHub Personal Access Token: $GITAT"
+# echo "GitHub User Email: $GITE"
+# echo "GitHub Organization: $GITO" 
 read -p "Is this all correct? (y/n) : " -n 1 -r
 echo ""
 
@@ -43,11 +43,12 @@ then
     rm $CREDS 2> /dev/null
     cat ./creds.sav | sed 's~DYNATRACE_TENANT_PLACEHOLDER~'"$DTENV"'~' | \
       sed 's~DYNATRACE_API_TOKEN~'"$DTAPI"'~' | \
-      sed 's~DYNATRACE_PAAS_TOKEN~'"$DTPAAST"'~' | \
-      sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITU"'~' | \
-      sed 's~PERSONAL_ACCESS_TOKEN_PLACEHOLDER~'"$GITAT"'~' | \
-      sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITE"'~' | \
-      sed 's~GITHUB_ORG_PLACEHOLDER~'"$GITO"'~' >> $CREDS
+      sed 's~DYNATRACE_PAAS_TOKEN~'"$DTPAAST"'~' >> $CREDS
+    #   sed 's~DYNATRACE_PAAS_TOKEN~'"$DTPAAST"'~' | \
+    #   sed 's~GITHUB_USER_NAME_PLACEHOLDER~'"$GITU"'~' | \
+    #   sed 's~PERSONAL_ACCESS_TOKEN_PLACEHOLDER~'"$GITAT"'~' | \
+    #   sed 's~GITHUB_USER_EMAIL_PLACEHOLDER~'"$GITE"'~' | \
+    #   sed 's~GITHUB_ORG_PLACEHOLDER~'"$GITO"'~' >> $CREDS
 fi
 
 cat $CREDS
