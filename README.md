@@ -9,7 +9,9 @@ Sockshop is a demo application that will be deployed on a k8s cluster as part of
 
 ## Step Zero: Prerequisites <a id="step-zero"></a>
 
-Keptn assumes that you have a working Kubernetes cluster in Google Container Engine (GKE). See the [Getting Started Guides](https://kubernetes.io/docs/setup/) for details about creating a cluster.
+This workshop assumes that you have a working Kubernetes cluster in Google Container Engine (GKE). See the [Getting Started Guides](https://kubernetes.io/docs/setup/) for details about creating a cluster. 
+It is recommended to have a cluster with `2 nodes` of size `n1-standard-2` and a master node of the same size.
+Also make sure to use the `Ubuntu OS` (and not the Container Optimized OS)
 
 The scripts provided in this directory run in a BASH and require following tools locally installed: 
 * [`jq`](https://stedolan.github.io/jq/) which is a lightweight and flexible command-line JSON processor
@@ -18,18 +20,18 @@ The scripts provided in this directory run in a BASH and require following tools
     **Tip:** View all the kubectl commands, including their options and descriptions in the [kubectl CLI reference](https://kubernetes.io/docs/user-guide/kubectl-overview/).
 
 Additionally, the scripts need:
-* `GitHub organization` to store the repositories of the sockshop application
-* `GitHub personal access token` to push changes to the sockshop repositories
-* Dynatrace Tenant including the Dynatrace `Tenant ID`, a Dynatrace `API Token`, and Dynatrace `PaaS Token`
+* The Dynatrace `Environment URL`
+* A Dynatrace `API Token` (https://www.dynatrace.com/support/help/dynatrace-api/dynatrace-api-authentication/)
+* A Dynatrace `PaaS Token` (https://www.dynatrace.com/support/help/cloud-platforms/azure/azure-container-services-kubernetes/deploy-oneagent-on-a-kubernetes-cluster-on-azure-container-services/?_ga=2.199868718.1469088003.1549285241-141282337.1538493485)
 
 ## Step One: Provision cluster on Kubernetes <a id="step-one"></a>
 
 This directory contains all scripts and instructions needed to deploy the demo application *sockshop* on a Kubernetes cluster.
 
-1. Execute the `forkGitHubRepositories.sh` script in the `scripts` directory. This script takes the name of the GitHub organization you have created earlier. This script clones all needed repositories and uses `hub` to fork those repositories to the passed GitHub organization. Afterwards, the script deletes all repositories and clones them again from the GitHub organization.
+1. Execute the `forkGitHubRepositories.sh` script in the `scripts` directory. This script takes the name of the GitHub organization you have created earlier. This script clones all needed repositories and uses `hub` to fork those repositories to the passed GitHub organization. Afterwards, the script deletes all repositories and clones them again from the GitHub organization. It might be useful to set up a temporary organization in GitHub to not mix with existing repositories, but that is up to you.
 
     ```console
-    $ cd ~/keptn/scripts/
+    $ cd ~/workshop-sockshop/scripts/
     $ ./forkGitHubRepositories.sh <GitHubOrg>
     ```
     
@@ -65,7 +67,7 @@ This directory contains all scripts and instructions needed to deploy the demo a
     front-end    LoadBalancer    10.23.248.***    **.226.62.***    8080:32232/TCP    7m
     ```
 
-## Step Four: Cleanup <a id="step-five"></a>
+## Step Two: Cleanup <a id="step-two"></a>
 
 1. To clean up your Kubernetes cluster, execute the `cleanupCluster.sh` script in the `scripts` directory.
 

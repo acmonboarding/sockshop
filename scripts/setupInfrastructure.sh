@@ -24,6 +24,8 @@ cat ../manifests/dynatrace/cr.yml | sed 's/ENVIRONMENTID.live.dynatrace.com/'"$D
 kubectl create -f ../manifests/dynatrace/cr_tmp.yml
 rm ../manifests/dynatrace/cr_tmp.yml
 
+echo "Sleeping for 5mins to allow the OneAgent to be deployed to all cluster nodes"
+sleep 150
 
 # Deploy sockshop application
 ./deploySockshop.sh
