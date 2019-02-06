@@ -20,7 +20,7 @@ The scripts provided in this directory run in a BASH and require following tools
     **Tip:** View all the kubectl commands, including their options and descriptions in the [kubectl CLI reference](https://kubernetes.io/docs/user-guide/kubectl-overview/).
 
 Additionally, the scripts need:
-* The Dynatrace `Environment URL`
+* The Dynatrace `Environment URL`: this will be something like abc123.live.dynatrace.com (without http)
 * A Dynatrace `API Token` (https://www.dynatrace.com/support/help/dynatrace-api/dynatrace-api-authentication/)
 * A Dynatrace `PaaS Token` (https://www.dynatrace.com/support/help/cloud-platforms/azure/azure-container-services-kubernetes/deploy-oneagent-on-a-kubernetes-cluster-on-azure-container-services/?_ga=2.199868718.1469088003.1549285241-141282337.1538493485)
 
