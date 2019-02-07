@@ -41,10 +41,15 @@ This directory contains all scripts and instructions needed to deploy the demo a
     $ ./defineCredentials.sh
     ```
     
-1. Execute `setupInfrastructure.sh` in the `scripts` directory. This script deploys a container registry and Jenkins service within your cluster, as well as an initial deployment of the sockshop application in the *dev*, *staging*, and *production* namespaces. **Note:** the script will run for some time (~5 min), since it will wait for Jenkins to boot before setting credentials via the Jenkins REST API.
+1. Execute `setupInfrastructure.sh` in the `scripts` directory. This script deploys a container registry and Jenkins service within your cluster, as well as an initial deployment of the sockshop application in the *dev*, *staging*, and *production* namespaces. **Note:** the script will run for some time (~5 min). 
 
     ```console
     $ ./setupInfrastructure.sh
+    ```
+It is possible to run the script with an argument of `light` to only deploy the app in the *dev* namespace, reducing the resource requirements. If running in this mode, the entire application can be deployed on a GCE `n1-standard-4` (*4vCPUs, 15GB memory*) or equivalent.
+
+    ```console
+    $ ./setupInfrastructure.sh light
     ```
 
 1. To verify the deployment of the sockshop service, retrieve the URLs of your front-end in the dev, staging, and production environments with the `kubectl get svc` *`service`* `-n` *`namespace`* command:

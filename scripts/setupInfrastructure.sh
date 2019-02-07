@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script if you don't want to apply all yaml files manually
-
+echo "$1"
 export DT_TENANT_ID=$(cat creds.json | jq -r '.dynatraceTenant')
 export DT_API_TOKEN=$(cat creds.json | jq -r '.dynatraceApiToken')
 export DT_PAAS_TOKEN=$(cat creds.json | jq -r '.dynatracePaaSToken')
@@ -24,8 +24,9 @@ cat ../manifests/dynatrace/cr.yml | sed 's/ENVIRONMENTID.live.dynatrace.com/'"$D
 kubectl create -f ../manifests/dynatrace/cr_tmp.yml
 rm ../manifests/dynatrace/cr_tmp.yml
 
-echo "Sleeping for 5mins to allow the OneAgent to be deployed to all cluster nodes"
+echo "Sleeping for 150s to allow the OneAgent to be deployed to all cluster nodes"
 sleep 150
 
 # Deploy sockshop application
-./deploySockshop.sh
+
+./deploySockshop.sh  $1
